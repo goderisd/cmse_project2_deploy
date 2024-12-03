@@ -409,15 +409,15 @@ def plot_var_results(train_data, test_data, forecast, p_value):
     st.pyplot(fig)
 
 def evaluate_and_plot_statistics(model_name, true_values, predicted_values):
-    if not isinstance(true_values, pd.Series):
-        true_values = pd.Series(true_values)
-    if not isinstance(predicted_values, pd.Series):
-        predicted_values = pd.Series(predicted_values)
-    
-    # Align the lengths of true and predicted values
-    min_length = min(len(true_values), len(predicted_values))
-    true_values = true_values[:min_length]
-    predicted_values = predicted_values[:min_length]
+    st.subheader(f"Model: {model_name}")
+    if isinstance(true_data, np.ndarray):
+        true_data = pd.DataFrame(true_data, columns=variables)
+    if isinstance(predicted_data, np.ndarray):
+        predicted_data = pd.DataFrame(predicted_data, columns=variables)
+
+    min_length = min(len(true_data), len(predicted_data))
+    true_data = true_data.iloc[:min_length].reset_index(drop=True)
+    predicted_data = predicted_data.iloc[:min_length].reset_index(drop=True)
 
     # Calculate evaluation metrics
     rmse = np.sqrt(mean_squared_error(true_values, predicted_values))
