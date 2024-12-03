@@ -653,7 +653,7 @@ def delta_page():
     st.header("VAR(p) Model Analysis")
     st.subheader("Forecasting ARR_DELAY Using Average DEP_DELAY and Average AIR_TIME")
     # User input for the lag value (p) and forecast steps
-    p_value_var = st.slider("Select Lag (p) value for VAR(p)", 1, 15, 2)  # Default p = 2
+    p_value_var = st.slider("Select Lag (p) value for VAR(p)", 1, 1, 1)  # Default p = 2
 
 
     forecast, results, train_data, test_data = forecast_var_model(filtered_non_cancelled, p_value_var)
