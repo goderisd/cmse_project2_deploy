@@ -588,8 +588,8 @@ def delta_page():
     """)
 
     # Sidebar inputs for lag and forecast steps
-    lag_range = st.sidebar.slider("Select AR Lag Range for ACF/PACF", min_value=1, max_value=10, value=1)
-    forecast_steps = st.sidebar.slider("Forecast Steps", min_value=1, max_value=10, value=1)
+    lag_range = st.sidebar.slider("Select AR Lag Range for ACF/PACF", min_value=1, max_value=1, value=1)
+    forecast_steps = st.sidebar.slider("Forecast Steps", min_value=1, max_value=1, value=1)
 
     # ACF and PACF Analysis
     train_data = filtered_non_cancelled['ARR_DELAY'][:int(len(filtered_non_cancelled) * 0.8)]  # 80% train split
@@ -642,9 +642,9 @@ def delta_page():
     st.header("AR(p) Model Forecast on Aggregated Mean Arrival Delays")
 
     # Allow the user to choose the lag (p_value) dynamically
-    p_value = st.slider("Select the lag (p) for the AR model:", min_value=1, max_value=10, value=1)
+    p_value = st.slider("Select the lag (p) for the AR model:", min_value=1, max_value=1, value=1)
 
-    forecast_steps = st.slider("Select the number of forecast steps:", min_value=1, max_value=10, value=1)
+    forecast_steps = st.slider("Select the number of forecast steps:", min_value=1, max_value=1, value=1)
 
     forecast, predictions, train_data, test_data = forecast_ar_model_with_mean(filtered_non_cancelled, p_value=p_value,
                                                                                forecast_steps=forecast_steps)
@@ -778,8 +778,8 @@ def american_page():
         """)
 
     # Sidebar inputs for lag and forecast steps
-    lag_range = st.sidebar.slider("Select AR Lag Range for ACF/PACF", min_value=1, max_value=10, value=1)
-    forecast_steps = st.sidebar.slider("Forecast Steps", min_value=1, max_value=10, value=1)
+    lag_range = st.sidebar.slider("Select AR Lag Range for ACF/PACF", min_value=1, max_value=1, value=1)
+    forecast_steps = st.sidebar.slider("Forecast Steps", min_value=1, max_value=1, value=1)
 
     # ACF and PACF Analysis
     train_data = filtered_non_cancelled['ARR_DELAY'][:int(len(filtered_non_cancelled) * 0.8)]  # 80% train split
