@@ -808,7 +808,7 @@ def american_page():
     # Sidebar settings for predictions
     st.sidebar.header("Prediction Settings")
     forecast_type = st.sidebar.selectbox("Select Forecast Type", ['Mean', 'Weather Features', 'Holiday'])
-    p_value = st.sidebar.slider("AR(p) Lag Value", min_value=41, max_value=12, value=4)
+    p_value = st.sidebar.slider("AR(p) Lag Value", min_value=4, max_value=12, value=4)
 
     # Prediction Section
     st.subheader("Predict Arrival Delays")
@@ -869,7 +869,7 @@ def american_page():
     st.header("AR(p) Model Forecast on Aggregated Mean Arrival Delays")
 
     # Allow the user to choose the lag (p_value) dynamically
-    p_value = st.slider("Select the lag (p) for the AR model:", min_value=1, max_value=30, value=20)
+    p_value = st.slider("Select the lag (p) for the AR model:", min_value=1, max_value=12, value=8)
 
     # Allow user to adjust the number of forecast steps
     forecast_steps = st.slider("Select the number of forecast steps:", min_value=1, max_value=10, value=5)
@@ -1050,7 +1050,7 @@ def united_page():
     st.header("AR(p) Model Forecast on Aggregated Mean Arrival Delays")
 
     # Allow the user to choose the lag (p_value) dynamically
-    p_value = st.slider("Select the lag (p) for the AR model:", min_value=1, max_value=30, value=20)
+    p_value = st.slider("Select the lag (p) for the AR model:", min_value=1, max_value=12, value=8)
 
     # Allow user to adjust the number of forecast steps
     forecast_steps = st.slider("Select the number of forecast steps:", min_value=1, max_value=10, value=5)
