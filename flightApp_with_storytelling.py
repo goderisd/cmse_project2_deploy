@@ -483,30 +483,34 @@ def evaluate_and_plot_statistics(model_name, true_values, predicted_values):
 
 def evaluate_var_statistics(model_name, true_values, predicted_values, variables):
 
-        # Convert to pandas Series if they aren't already
-    if not isinstance(true_values, pd.Series):
-        true_values = pd.Series(true_values)
-    if not isinstance(predicted_data, pd.Series):
-        predicted_values = pd.Series(predicted_values)
+# Ensure the data is in DataFrame format with correct column names
+    if isinstance(true_data, np.ndarray):
+        true_data = pd.DataFrame(true_data, columns=variables)
+    if isinstance(predicted_data, np.ndarray):
+        predicted_data = pd.DataFrame(predicted_data, columns=variables)
 
-    # Ensure that both true and predicted values have the same length
-    min_length = min(len(true_values), len(predicted_values))
-    true_values = true_values[:min_length]
-    predicted_values = predicted_values[:min_length]
+    # Align indices and ensure no NaN values
+    true_data = true_data.dropna()
+    predicted_data = predicted_data.dropna()
 
-    # Check if there are any NaN values in the data
-    if true_values.isna().any() or predicted_values.isna().any():
-        st.write("Warning: NaN values detected in the true or predicted values.")
-        true_values = true_values.dropna()
-        predicted_values = predicted_values.dropna()
+    # Ensure both true and predicted data are of the same length
+    min_length = min(len(true_data), len(predicted_data))
+    true_data = true_data.iloc[:min_length]
+    predicted_data = predicted_data.iloc[:min_length]
 
-    # Recalculate the minimum length after dropping NaN values
-    min_length = min(len(true_values), len(predicted_values))
-    true_values = true_values[:min_length]
-    predicted_values = predicted_values[:min_length]
-    # Initialize subplots for each variable
+    # Align the indices of predicted_data to match true_data
+    predicted_data.index = true_data.index[:len(predicted_data)]  # Align with true values
+
+    # Check if true_data and predicted_data have the same index
+    if not true_data.index.equals(predicted_data.index):
+        st.write("Warning: Indices don't match!")
+        st.write(f"True values indices: {true_data.index}")
+        st.write(f"Predicted values indices: {predicted_data.index}")
+
+    # Compute evaluation metrics and plot statistics for each variable
     n_variables = len(variables)
     fig, axes = plt.subplots(n_variables, 1, figsize=(12, 6 * n_variables))
+
 
     # Compute and plot statistics for each variable
     for i, variable in enumerate(variables):
