@@ -670,17 +670,17 @@ def delta_page():
     # AR(p) Model Evaluation
     st.header("AR(p) Model Forecast on Aggregated Mean Arrival Delays")
 
-    # Run AR(p) Model
-  #  forecast_ar, predictions_ar, train_data_ar, test_data_ar = forecast_ar_model_with_mean(
-  #      filtered_non_cancelled, p_value=p_value, forecast_steps=forecast_steps
-  #  )
+    #Run AR(p) Model
+    forecast_ar, predictions_ar, train_data_ar, test_data_ar = forecast_ar_model_with_mean(
+        filtered_non_cancelled, p_value=p_value, forecast_steps=forecast_steps
+    )
 
     # Evaluate AR(p) Model
-  #  evaluate_and_plot_statistics(
-  #      model_name="AR(p) Model (Aggregated Mean Arrival Delays)",
-  #      true_values=test_data_ar[:forecast_steps],  # Align with forecast_steps
-   #     predicted_values=predictions_ar,
-   # )
+    evaluate_and_plot_statistics(
+        model_name="AR(p) Model (Aggregated Mean Arrival Delays)",
+        true_values=test_data_ar[:forecast_steps],  # Align with forecast_steps
+        predicted_values=predictions_ar,
+    )
 
     st.header("VAR(p) Model Analysis")
     st.subheader("Forecasting ARR_DELAY Using Average DEP_DELAY and Average AIR_TIME")
