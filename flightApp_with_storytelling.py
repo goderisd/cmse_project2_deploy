@@ -642,7 +642,7 @@ def delta_page():
     st.header("AR(p) Model Forecast on Aggregated Mean Arrival Delays")
 
     # Allow the user to choose the lag (p_value) dynamically
-    p_value = st.slider("Select the lag (p) for the AR model:", min_value=1, max_value=20, value=2)
+    p_value = st.slider("Select the lag (p) for the AR model:", min_value=1, max_value=10, value=2)
 
     forecast_steps = st.slider("Select the number of forecast steps:", min_value=1, max_value=10, value=2)
 
