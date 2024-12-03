@@ -443,7 +443,7 @@ def evaluate_and_plot_statistics(model_name, true_values, predicted_values):
     ax[1].set_ylabel("Error")
     ax[1].legend()
 
-    ax[2].hist(residuals, bins=20, color="purple", edgecolor="black", alpha=0.7)
+    ax[2].hist(residuals, bins=4, color="purple", edgecolor="black", alpha=0.7)
     ax[2].set_title(f"{model_name} Residuals Distribution")
     ax[2].set_xlabel("Error")
     ax[2].set_ylabel("Frequency")
