@@ -950,7 +950,7 @@ def united_page():
         **What:** Examines the impact of weather and holidays on United Airlines' delays.
         **Why:** Helps United mitigate delay risks and enhance customer satisfaction.
         **How:** Uses data visualization and statistical models.
-    """)
+    "")
     st.title("United Airlines")
     st.write("""This page explores how United Airlines is impacted by weather conditions and federal holidays.
 
