@@ -1,6 +1,6 @@
 # cmse_project2_deploy
 
-This is just copied over from the full repo that will be turned in on D2L
+This is just copied over from the full repo that will be turned in on D2L with the whole app running locally!
 
 AI use declaration: Throughout the project i used CHatgpt 4.0 approaximate dates were from 11/20 to 12/3 (while I worked on the project), to aid in the following tasks: Convert AR(p) and VAR(p) code from ICAs and HWs to more compact functions Genral debugging for type and value errors that occured while programming Production of the outline skelton for the pages for the streamlit app Propogate the program features that were developed with the Delta dataset to the United and American Datasets And to comment the final script to ensure ease of read/grade -ing
 
