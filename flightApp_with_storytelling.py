@@ -759,7 +759,7 @@ def american_page():
     """)
     st.title("American Airlines")
     st.write("""
-    This page explores how American Airlines is impacted by weather conditions and federal holidays.
+        This page explores how American Airlines is impacted by weather conditions and federal holidays.
 
         ## Visualizations:
         - **Weather Impact**: Analyze how different weather features (e.g., precipitation, severity) affect delays and cancellations for Delta.
@@ -770,8 +770,7 @@ def american_page():
 
         ## Statistical Analysis:
         - Understand the correlation between weather variables and flight delays/cancellations.
-        """
-             )
+        """)
 
     # Load American Airlines data
     non_cancelled_data, cancelled_data = load_airline_data('American')
@@ -943,7 +942,8 @@ def united_page():
         **How:** Uses data visualization and statistical models.
     """)
     st.title("United Airlines")
-    st.write("""This page explores how United Airlines is impacted by weather conditions and federal holidays.
+    st.write("""
+        This page explores how United Airlines is impacted by weather conditions and federal holidays.
 
         ## Visualizations:
         - **Weather Impact**: Analyze how different weather features (e.g., precipitation, severity) affect delays and cancellations for United Airlines.
