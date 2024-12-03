@@ -409,20 +409,34 @@ def plot_var_results(train_data, test_data, forecast, p_value):
     st.pyplot(fig)
 
 def evaluate_and_plot_statistics(model_name, true_values, predicted_values):
+    st.write(f"Running evaluation for model: {model_name}")
+    
+    # Convert to pandas Series if they aren't already
     if not isinstance(true_values, pd.Series):
         true_values = pd.Series(true_values)
     if not isinstance(predicted_values, pd.Series):
         predicted_values = pd.Series(predicted_values)
-    
-    # Align the lengths of true and predicted values
+
+    # Check for NaN values and remove them
+    true_values = true_values.dropna()
+    predicted_values = predicted_values.dropna()
+
+    # Ensure both series are the same length after removing NaN values
     min_length = min(len(true_values), len(predicted_values))
     true_values = true_values[:min_length]
     predicted_values = predicted_values[:min_length]
 
-    # Calculate evaluation metrics
-    rmse = np.sqrt(mean_squared_error(true_values, predicted_values))
-    mae = np.mean(np.abs(true_values - predicted_values))
-    mbe = np.mean(true_values - predicted_values)  # Mean Bias Error
+    # Check if true values and predicted values are constant (no variance)
+    if true_values.var() == 0:
+        st.write("Warning: True values are constant!")
+    if predicted_values.var() == 0:
+        st.write("Warning: Predicted values are constant!")
+
+    # Check if indices match
+    if not true_values.index.equals(predicted_values.index):
+        st.write("Warning: Indices don't match!")
+        st.write(f"True values indices: {true_values.index}")
+        st.write(f"Predicted values indices: {predicted_values.index}")
 
     # Display metrics in Streamlit
     st.subheader(f"Model: {model_name}")
