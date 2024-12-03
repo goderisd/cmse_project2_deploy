@@ -79,7 +79,7 @@ def homepage():
         ## WARNING:
         - This is a sampled data set to allow for streamlit to be able to host this massive dataset 
         - This means that a few things may struggle to be accurate as the code random selects two days per month to display flight data 
-        -Importantly the "Holiday projection" and visualization will likely be very poor, since it will be unlikely that a holiday will be chosen within 2 days of a month.
+        -Importantly the "Holiday projection" and visualization will likely be very inaccurate, since the data is sampled to two random days per month, meanign it will either be a holiday or not.
         - Furthermore, this means that the already poor ability to predict flight delays gets a lot worse :), if you would like a copy of an app that can run on your local machien with the full 2022 datset email me: goderisd@msu.edu.  I will be happy to send you the repo!
     """)
 
@@ -642,7 +642,7 @@ def delta_page():
     st.header("AR(p) Model Forecast on Aggregated Mean Arrival Delays")
 
     # Allow the user to choose the lag (p_value) dynamically
-    p_value = st.slider("Select the lag (p) for the AR model:", min_value=1, max_value=30, value=20)
+    p_value = st.slider("Select the lag (p) for the AR model:", min_value=1, max_value=20, value=2)
 
     forecast_steps = st.slider("Select the number of forecast steps:", min_value=1, max_value=10, value=5)
 
@@ -653,7 +653,7 @@ def delta_page():
     st.header("VAR(p) Model Analysis")
     st.subheader("Forecasting ARR_DELAY Using Average DEP_DELAY and Average AIR_TIME")
     # User input for the lag value (p) and forecast steps
-    p_value_var = st.slider("Select Lag (p) value for VAR(p)", 1, 30, 20)  # Default p = 2
+    p_value_var = st.slider("Select Lag (p) value for VAR(p)", 1, 15, 2)  # Default p = 2
 
 
     forecast, results, train_data, test_data = forecast_var_model(filtered_non_cancelled, p_value_var)
