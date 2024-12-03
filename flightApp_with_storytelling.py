@@ -1006,7 +1006,7 @@ def united_page():
     st.subheader("Predict Arrival Delays")
     st.write("""
             Select prediction parameters in the sidebar to forecast arrival delays.
-        """)
+            """)
 
     lag_range = st.sidebar.slider("Select AR Lag Range for ACF/PACF", min_value=1, max_value=10, value=4)
     forecast_steps = st.sidebar.slider("Forecast Steps", min_value=1, max_value=10, value=4)
