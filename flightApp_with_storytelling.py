@@ -459,10 +459,10 @@ def evaluate_and_plot_statistics(model_name, true_values, predicted_values):
 
     st.pyplot(fig)
 
-def evaluate_var_statistics(model_name, true_data, predicted_data, variables):
+def evaluate_var_statistics(model_name, true_values, predicted_values, variables):
 
         # Convert to pandas Series if they aren't already
-    if not isinstance(true_data, pd.Series):
+    if not isinstance(true_values, pd.Series):
         true_values = pd.Series(true_values)
     if not isinstance(predicted_data, pd.Series):
         predicted_values = pd.Series(predicted_values)
@@ -596,7 +596,7 @@ def delta_page():
     # Sidebar settings for predictions
     st.sidebar.header("Prediction Settings")
     forecast_type = st.sidebar.selectbox("Select Forecast Type", ['Mean', 'Weather Features', 'Holiday'])
-    p_value = st.sidebar.slider("AR(p) Lag Value", min_value=1, max_value=10, value=4)
+    p_value = st.sidebar.slider("AR(p) Lag Value", min_value=8, max_value=12, value=8)
 
     # Prediction Section
     st.subheader("Predict Arrival Delays")
