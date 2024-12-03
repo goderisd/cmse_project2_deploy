@@ -579,7 +579,7 @@ def delta_page():
     # Sidebar settings for predictions
     st.sidebar.header("Prediction Settings")
     forecast_type = st.sidebar.selectbox("Select Forecast Type", ['Mean', 'Weather Features', 'Holiday'])
-    p_value = st.sidebar.slider("AR(p) Lag Value", min_value=1, max_value=10, value=1)
+    p_value = st.sidebar.slider("AR(p) Lag Value", min_value=1, max_value=10, value=4)
 
     # Prediction Section
     st.subheader("Predict Arrival Delays")
@@ -588,8 +588,8 @@ def delta_page():
     """)
 
     # Sidebar inputs for lag and forecast steps
-    lag_range = st.sidebar.slider("Select AR Lag Range for ACF/PACF", min_value=1, max_value=1, value=1)
-    forecast_steps = st.sidebar.slider("Forecast Steps", min_value=1, max_value=1, value=1)
+    lag_range = st.sidebar.slider("Select AR Lag Range for ACF/PACF", min_value=1, max_value=10, value=4)
+    forecast_steps = st.sidebar.slider("Forecast Steps", min_value=1, max_value=10, value=4)
 
     # ACF and PACF Analysis
     train_data = filtered_non_cancelled['ARR_DELAY'][:int(len(filtered_non_cancelled) * 0.8)]  # 80% train split
@@ -612,7 +612,7 @@ def delta_page():
     rmse = np.sqrt(mean_squared_error(test_data[:forecast_steps], forecast))
     st.write(f"RMSE: {rmse:.2f}")
 
-    fig, ax = plt.subplots(2, 1, figsize=(12, 12)) 
+    fig, ax = plt.subplots(2, 1, figsize=(12, 12))
 
     # Full plot (top)
     ax[0].plot(train_data.index, train_data, label="Training Data", color="blue")
@@ -642,9 +642,9 @@ def delta_page():
     st.header("AR(p) Model Forecast on Aggregated Mean Arrival Delays")
 
     # Allow the user to choose the lag (p_value) dynamically
-    p_value = st.slider("Select the lag (p) for the AR model:", min_value=1, max_value=1, value=1)
+    p_value = st.slider("Select the lag (p) for the AR model:", min_value=1, max_value=10, value=2)
 
-    forecast_steps = st.slider("Select the number of forecast steps:", min_value=1, max_value=1, value=1)
+    forecast_steps = st.slider("Select the number of forecast steps:", min_value=1, max_value=10, value=2)
 
     forecast, predictions, train_data, test_data = forecast_ar_model_with_mean(filtered_non_cancelled, p_value=p_value,
                                                                                forecast_steps=forecast_steps)
@@ -653,7 +653,7 @@ def delta_page():
     st.header("VAR(p) Model Analysis")
     st.subheader("Forecasting ARR_DELAY Using Average DEP_DELAY and Average AIR_TIME")
     # User input for the lag value (p) and forecast steps
-    p_value_var = st.slider("Select Lag (p) value for VAR(p)", 1, 1, 1)  # Default p = 2
+    p_value_var = st.slider("Select Lag (p) value for VAR(p)", 1, 15, 2)  # Default p = 2
 
 
     forecast, results, train_data, test_data = forecast_var_model(filtered_non_cancelled, p_value_var)
@@ -778,8 +778,8 @@ def american_page():
         """)
 
     # Sidebar inputs for lag and forecast steps
-    lag_range = st.sidebar.slider("Select AR Lag Range for ACF/PACF", min_value=1, max_value=1, value=1)
-    forecast_steps = st.sidebar.slider("Forecast Steps", min_value=1, max_value=1, value=1)
+    lag_range = st.sidebar.slider("Select AR Lag Range for ACF/PACF", min_value=1, max_value=10, value=4)
+    forecast_steps = st.sidebar.slider("Forecast Steps", min_value=1, max_value=10, value=4)
 
     # ACF and PACF Analysis
     train_data = filtered_non_cancelled['ARR_DELAY'][:int(len(filtered_non_cancelled) * 0.8)]  # 80% train split
@@ -1011,10 +1011,10 @@ def united_page():
     st.header("AR(p) Model Forecast on Aggregated Mean Arrival Delays")
 
     # Allow the user to choose the lag (p_value) dynamically
-    p_value = st.slider("Select the lag (p) for the AR model:", min_value=1, max_value=10, value=1)
+    p_value = st.slider("Select the lag (p) for the AR model:", min_value=1, max_value=30, value=20)
 
     # Allow user to adjust the number of forecast steps
-    forecast_steps = st.slider("Select the number of forecast steps:", min_value=1, max_value=10, value=1)
+    forecast_steps = st.slider("Select the number of forecast steps:", min_value=1, max_value=10, value=5)
 
     forecast, predictions, train_data, test_data = forecast_ar_model_with_mean(filtered_non_cancelled, p_value=p_value,
                                                                                forecast_steps=forecast_steps)
