@@ -483,29 +483,37 @@ def evaluate_and_plot_statistics(model_name, true_values, predicted_values):
 
 def evaluate_var_statistics(model_name, true_values, predicted_values, variables):
 
-# Ensure the data is in DataFrame format with correct column names
-    if isinstance(true_data, np.ndarray):
-        true_data = pd.DataFrame(true_data, columns=variables)
-    if isinstance(predicted_data, np.ndarray):
-        predicted_data = pd.DataFrame(predicted_data, columns=variables)
+st.write(f"Running evaluation for model: {model_name}")
+    
+    # Convert to pandas Series if they aren't already
+    if not isinstance(true_values, pd.Series):
+        true_values = pd.Series(true_values)
+    if not isinstance(predicted_values, pd.Series):
+        predicted_values = pd.Series(predicted_values)
 
-    # Align indices and ensure no NaN values
-    true_data = true_data.dropna()
-    predicted_data = predicted_data.dropna()
+    # Check for NaN values and remove them
+    true_values = true_values.dropna()
+    predicted_values = predicted_values.dropna()
 
-    # Ensure both true and predicted data are of the same length
-    min_length = min(len(true_data), len(predicted_data))
-    true_data = true_data.iloc[:min_length]
-    predicted_data = predicted_data.iloc[:min_length]
+    # Ensure both series are the same length after removing NaN values
+    min_length = min(len(true_values), len(predicted_values))
+    true_values = true_values[:min_length]
+    predicted_values = predicted_values[:min_length]
 
-    # Align the indices of predicted_data to match true_data
-    predicted_data.index = true_data.index[:len(predicted_data)]  # Align with true values
+    # Align the indices of predicted_values to match true_values
+    predicted_values.index = true_values.index[:len(predicted_values)]  # Align with true values
 
-    # Check if true_data and predicted_data have the same index
-    if not true_data.index.equals(predicted_data.index):
+    # Check if true values and predicted values are constant (no variance)
+    if true_values.var() == 0:
+        st.write("Warning: True values are constant!")
+    if predicted_values.var() == 0:
+        st.write("Warning: Predicted values are constant!")
+
+    # Check if indices match
+    if not true_values.index.equals(predicted_values.index):
         st.write("Warning: Indices don't match!")
-        st.write(f"True values indices: {true_data.index}")
-        st.write(f"Predicted values indices: {predicted_data.index}")
+        st.write(f"True values indices: {true_values.index}")
+        st.write(f"Predicted values indices: {predicted_values.index}")
 
     # Compute evaluation metrics and plot statistics for each variable
     n_variables = len(variables)
