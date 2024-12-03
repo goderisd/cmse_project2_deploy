@@ -604,7 +604,7 @@ def delta_page():
     ax[1].set_title("PACF")
     st.pyplot(fig)
 
-    # Fit AR(p) and Forecast
+""    # Fit AR(p) and Forecast
     forecast = fit_ar_model(train_data.values, lag_range, forecast_steps)
 
     # Evaluation and Plot
@@ -612,7 +612,7 @@ def delta_page():
     rmse = np.sqrt(mean_squared_error(test_data[:forecast_steps], forecast))
     st.write(f"RMSE: {rmse:.2f}")
 
-    fig, ax = plt.subplots(2, 1, figsize=(12, 12))
+    fig, ax = plt.subplots(2, 1, figsize=(12, 12)) ""
 
     # Full plot (top)
     ax[0].plot(train_data.index, train_data, label="Training Data", color="blue")
