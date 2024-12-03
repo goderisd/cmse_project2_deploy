@@ -16,14 +16,14 @@ def load_airline_data(airline_name):
     base_path = os.path.dirname(__file__)
 
     if airline_name == 'Delta':
-        non_cancelled_path = os.path.join(base_path, '..', 'merged_weather_holiday_non_cancelled_delta_flights.csv')
-        cancelled_path = os.path.join(base_path, '..', 'merged_weather_holiday_canceled_delta_flights.csv')
+        non_cancelled_path = os.path.join(base_path, 'downsampled_merged_weather_holiday_non_cancelled_delta_flights.csv')
+        cancelled_path = os.path.join(base_path, 'downsampled_merged_weather_holiday_canceled_delta_flights.csv')
     elif airline_name == 'American':
-        non_cancelled_path = os.path.join(base_path, '..', 'merged_weather_holiday_non_cancelled_american_flights.csv')
-        cancelled_path = os.path.join(base_path, '..', 'merged_weather_holiday_canceled_american_flights.csv')
+        non_cancelled_path = os.path.join(base_path,'downsampled_merged_weather_holiday_non_cancelled_american_flights.csv')
+        cancelled_path = os.path.join(base_path,'downsampled_merged_weather_holiday_canceled_american_flights.csv')
     elif airline_name == 'United':
-        non_cancelled_path = os.path.join(base_path, '..', 'merged_weather_holiday_non_cancelled_united_flights.csv')
-        cancelled_path = os.path.join(base_path, '..', 'merged_weather_holiday_canceled_united_flights.csv')
+        non_cancelled_path = os.path.join(base_path, 'downsampled_merged_weather_holiday_non_cancelled_united_flights.csv')
+        cancelled_path = os.path.join(base_path,'downsampled_merged_weather_holiday_canceled_united_flights.csv')
 
     non_cancelled_data = pd.read_csv(non_cancelled_path, parse_dates=['FL_DATE'])
     cancelled_data = pd.read_csv(cancelled_path, parse_dates=['FL_DATE'])
