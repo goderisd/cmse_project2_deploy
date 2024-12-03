@@ -461,16 +461,27 @@ def evaluate_and_plot_statistics(model_name, true_values, predicted_values):
 
 def evaluate_var_statistics(model_name, true_data, predicted_data, variables):
 
-    st.subheader(f"Model: {model_name}")
-    if isinstance(true_data, np.ndarray):
-        true_data = pd.DataFrame(true_data, columns=variables)
-    if isinstance(predicted_data, np.ndarray):
-        predicted_data = pd.DataFrame(predicted_data, columns=variables)
+        # Convert to pandas Series if they aren't already
+    if not isinstance(true_values, pd.Series):
+        true_values = pd.Series(true_values)
+    if not isinstance(predicted_values, pd.Series):
+        predicted_values = pd.Series(predicted_values)
 
-    min_length = min(len(true_data), len(predicted_data))
-    true_data = true_data.iloc[:min_length].reset_index(drop=True)
-    predicted_data = predicted_data.iloc[:min_length].reset_index(drop=True)
+    # Ensure that both true and predicted values have the same length
+    min_length = min(len(true_values), len(predicted_values))
+    true_values = true_values[:min_length]
+    predicted_values = predicted_values[:min_length]
 
+    # Check if there are any NaN values in the data
+    if true_values.isna().any() or predicted_values.isna().any():
+        st.write("Warning: NaN values detected in the true or predicted values.")
+        true_values = true_values.dropna()
+        predicted_values = predicted_values.dropna()
+
+    # Recalculate the minimum length after dropping NaN values
+    min_length = min(len(true_values), len(predicted_values))
+    true_values = true_values[:min_length]
+    predicted_values = predicted_values[:min_length]
     # Initialize subplots for each variable
     n_variables = len(variables)
     fig, axes = plt.subplots(n_variables, 1, figsize=(12, 6 * n_variables))
@@ -671,16 +682,16 @@ def delta_page():
     st.header("AR(p) Model Forecast on Aggregated Mean Arrival Delays")
 
     # Run AR(p) Model
-  #  forecast_ar, predictions_ar, train_data_ar, test_data_ar = forecast_ar_model_with_mean(
-  #      filtered_non_cancelled, p_value=p_value, forecast_steps=forecast_steps
-  #  )
+    forecast_ar, predictions_ar, train_data_ar, test_data_ar = forecast_ar_model_with_mean(
+        filtered_non_cancelled, p_value=p_value, forecast_steps=forecast_steps
+    )
 
     # Evaluate AR(p) Model
-  #  evaluate_and_plot_statistics(
-  #      model_name="AR(p) Model (Aggregated Mean Arrival Delays)",
-  #      true_values=test_data_ar[:forecast_steps],  # Align with forecast_steps
-   #     predicted_values=predictions_ar,
-   # )
+    evaluate_and_plot_statistics(
+        model_name="AR(p) Model (Aggregated Mean Arrival Delays)",
+        true_values=test_data_ar[:forecast_steps],  # Align with forecast_steps
+        predicted_values=predictions_ar,
+    )
 
     st.header("VAR(p) Model Analysis")
     st.subheader("Forecasting ARR_DELAY Using Average DEP_DELAY and Average AIR_TIME")
