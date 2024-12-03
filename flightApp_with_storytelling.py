@@ -483,8 +483,7 @@ def evaluate_and_plot_statistics(model_name, true_values, predicted_values):
 
 def evaluate_var_statistics(model_name, true_values, predicted_values, variables):
 
-st.write(f"Running evaluation for model: {model_name}")
-    
+  
     # Convert to pandas Series if they aren't already
     if not isinstance(true_values, pd.Series):
         true_values = pd.Series(true_values)
