@@ -947,7 +947,7 @@ def united_page():
 
     st.subheader("United Airlines Overview")
     st.write(""
-        **What:** Examines the impact of weather and holidays on United Airlines' delays.
+        **What:** Examines the impact of weather and holidays on United Airlines delays.
         **Why:** Helps United mitigate delay risks and enhance customer satisfaction.
         **How:** Uses data visualization and statistical models.
     "")
