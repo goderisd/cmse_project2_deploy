@@ -579,7 +579,7 @@ def delta_page():
     # Sidebar settings for predictions
     st.sidebar.header("Prediction Settings")
     forecast_type = st.sidebar.selectbox("Select Forecast Type", ['Mean', 'Weather Features', 'Holiday'])
-    p_value = st.sidebar.slider("AR(p) Lag Value", min_value=1, max_value=10, value=4)
+    p_value = st.sidebar.slider("AR(p) Lag Value", min_value=1, max_value=10, value=1)
 
     # Prediction Section
     st.subheader("Predict Arrival Delays")
@@ -588,8 +588,8 @@ def delta_page():
     """)
 
     # Sidebar inputs for lag and forecast steps
-    lag_range = st.sidebar.slider("Select AR Lag Range for ACF/PACF", min_value=1, max_value=10, value=4)
-    forecast_steps = st.sidebar.slider("Forecast Steps", min_value=1, max_value=10, value=4)
+    lag_range = st.sidebar.slider("Select AR Lag Range for ACF/PACF", min_value=1, max_value=10, value=1)
+    forecast_steps = st.sidebar.slider("Forecast Steps", min_value=1, max_value=10, value=1)
 
     # ACF and PACF Analysis
     train_data = filtered_non_cancelled['ARR_DELAY'][:int(len(filtered_non_cancelled) * 0.8)]  # 80% train split
