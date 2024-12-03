@@ -481,39 +481,24 @@ def evaluate_and_plot_statistics(model_name, true_values, predicted_values):
 
     st.pyplot(fig)
 
-def evaluate_var_statistics(model_name, true_values, predicted_values, variables):
+def evaluate_var_statistics(model_name, true_data, predicted_data, variables):
+    st.subheader(f"Model: {model_name}")
+    
+    # Convert to pandas DataFrame if not already in the correct format
+    if isinstance(true_data, np.ndarray):
+        true_data = pd.DataFrame(true_data, columns=variables)
+    if isinstance(predicted_data, np.ndarray):
+        predicted_data = pd.DataFrame(predicted_data, columns=variables)
 
+    # Ensure both dataframes are aligned and of the same length
+    min_length = min(len(true_data), len(predicted_data))
+    true_data = true_data.iloc[:min_length]
+    predicted_data = predicted_data.iloc[:min_length]
+
+    # If necessary, reset the index so it's consistent across true and predicted data
+    true_data.reset_index(drop=True, inplace=True)
+    predicted_data.reset_index(drop=True, inplace=True)
   
-    # Convert to pandas Series if they aren't already
-    if not isinstance(true_values, pd.Series):
-        true_values = pd.Series(true_values)
-    if not isinstance(predicted_values, pd.Series):
-        predicted_values = pd.Series(predicted_values)
-
-    # Check for NaN values and remove them
-    true_values = true_values.dropna()
-    predicted_values = predicted_values.dropna()
-
-    # Ensure both series are the same length after removing NaN values
-    min_length = min(len(true_values), len(predicted_values))
-    true_values = true_values[:min_length]
-    predicted_values = predicted_values[:min_length]
-
-    # Align the indices of predicted_values to match true_values
-    predicted_values.index = true_values.index[:len(predicted_values)]  # Align with true values
-
-    # Check if true values and predicted values are constant (no variance)
-    if true_values.var() == 0:
-        st.write("Warning: True values are constant!")
-    if predicted_values.var() == 0:
-        st.write("Warning: Predicted values are constant!")
-
-    # Check if indices match
-    if not true_values.index.equals(predicted_values.index):
-        st.write("Warning: Indices don't match!")
-        st.write(f"True values indices: {true_values.index}")
-        st.write(f"Predicted values indices: {predicted_values.index}")
-
     # Compute evaluation metrics and plot statistics for each variable
     n_variables = len(variables)
     fig, axes = plt.subplots(n_variables, 1, figsize=(12, 6 * n_variables))
@@ -524,7 +509,16 @@ def evaluate_var_statistics(model_name, true_values, predicted_values, variables
         true_values = true_data[variable]
         predicted_values = predicted_data[variable]
 
-        # Calculate residuals
+        # Handle NaN values by dropping them
+        true_values = true_values.dropna()
+        predicted_values = predicted_values.dropna()
+
+       
+        min_length = min(len(true_values), len(predicted_values))
+        true_values = true_values[:min_length]
+        predicted_values = predicted_values[:min_length]
+
+        #
         residuals = true_values - predicted_values
 
         # RMSE, MAE, MBE
@@ -532,7 +526,6 @@ def evaluate_var_statistics(model_name, true_values, predicted_values, variables
         mae = np.mean(np.abs(residuals))
         mbe = np.mean(residuals)
 
-        # Display metrics
         st.subheader(f"{model_name} - {variable}")
         st.write(f"RMSE: {rmse:.2f}")
         st.write(f"MAE: {mae:.2f}")
@@ -548,8 +541,9 @@ def evaluate_var_statistics(model_name, true_values, predicted_values, variables
 
     for ax in axes:
         ax.grid(True, linestyle="--", alpha=0.7)
-    st.pyplot(fig)
 
+    # Display the plot in Streamlit
+    st.pyplot(fig)
 
 def delta_page():
 
