@@ -426,6 +426,9 @@ def evaluate_and_plot_statistics(model_name, true_values, predicted_values):
     true_values = true_values[:min_length]
     predicted_values = predicted_values[:min_length]
 
+    # Align the indices of predicted_values to match true_values
+    predicted_values.index = true_values.index[:len(predicted_values)]  # Align with true values
+
     # Check if true values and predicted values are constant (no variance)
     if true_values.var() == 0:
         st.write("Warning: True values are constant!")
@@ -437,6 +440,11 @@ def evaluate_and_plot_statistics(model_name, true_values, predicted_values):
         st.write("Warning: Indices don't match!")
         st.write(f"True values indices: {true_values.index}")
         st.write(f"Predicted values indices: {predicted_values.index}")
+
+    # Calculate evaluation metrics
+    rmse = np.sqrt(mean_squared_error(true_values, predicted_values))
+    mae = np.mean(np.abs(true_values - predicted_values))  # MAE
+    mbe = np.mean(true_values - predicted_values)  # Mean Bias Error
 
     # Display metrics in Streamlit
     st.subheader(f"Model: {model_name}")
@@ -800,7 +808,7 @@ def american_page():
     # Sidebar settings for predictions
     st.sidebar.header("Prediction Settings")
     forecast_type = st.sidebar.selectbox("Select Forecast Type", ['Mean', 'Weather Features', 'Holiday'])
-    p_value = st.sidebar.slider("AR(p) Lag Value", min_value=1, max_value=10, value=4)
+    p_value = st.sidebar.slider("AR(p) Lag Value", min_value=41, max_value=12, value=4)
 
     # Prediction Section
     st.subheader("Predict Arrival Delays")
@@ -983,7 +991,7 @@ def united_page():
     # Sidebar settings for predictions
     st.sidebar.header("Prediction Settings")
     forecast_type = st.sidebar.selectbox("Select Forecast Type", ['Mean', 'Weather Features', 'Holiday'])
-    p_value = st.sidebar.slider("AR(p) Lag Value", min_value=1, max_value=10, value=4)
+    p_value = st.sidebar.slider("AR(p) Lag Value", min_value=4, max_value=12, value=4)
 
     # Prediction Section
     st.subheader("Predict Arrival Delays")
