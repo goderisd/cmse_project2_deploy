@@ -462,9 +462,9 @@ def evaluate_and_plot_statistics(model_name, true_values, predicted_values):
 def evaluate_var_statistics(model_name, true_data, predicted_data, variables):
 
         # Convert to pandas Series if they aren't already
-    if not isinstance(true_values, pd.Series):
+    if not isinstance(true_data, pd.Series):
         true_values = pd.Series(true_values)
-    if not isinstance(predicted_values, pd.Series):
+    if not isinstance(predicted_data, pd.Series):
         predicted_values = pd.Series(predicted_values)
 
     # Ensure that both true and predicted values have the same length
