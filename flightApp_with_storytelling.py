@@ -482,28 +482,37 @@ def evaluate_and_plot_statistics(model_name, true_values, predicted_values):
     st.pyplot(fig)
 
 def evaluate_var_statistics(model_name, true_values, predicted_values, variables):
-
-        # Convert to pandas Series if they aren't already
+    st.write(f"Running evaluation for model: {model_name}")
+    
+    # Convert to pandas Series if they aren't already
     if not isinstance(true_values, pd.Series):
         true_values = pd.Series(true_values)
-    if not isinstance(predicted_data, pd.Series):
+    if not isinstance(predicted_values, pd.Series):
         predicted_values = pd.Series(predicted_values)
 
-    # Ensure that both true and predicted values have the same length
+    # Check for NaN values and remove them
+    true_values = true_values.dropna()
+    predicted_values = predicted_values.dropna()
+
+    # Ensure both series are the same length after removing NaN values
     min_length = min(len(true_values), len(predicted_values))
     true_values = true_values[:min_length]
     predicted_values = predicted_values[:min_length]
 
-    # Check if there are any NaN values in the data
-    if true_values.isna().any() or predicted_values.isna().any():
-        st.write("Warning: NaN values detected in the true or predicted values.")
-        true_values = true_values.dropna()
-        predicted_values = predicted_values.dropna()
+    # Align the indices of predicted_values to match true_values
+    predicted_values.index = true_values.index[:len(predicted_values)]  # Align with true values
 
-    # Recalculate the minimum length after dropping NaN values
-    min_length = min(len(true_values), len(predicted_values))
-    true_values = true_values[:min_length]
-    predicted_values = predicted_values[:min_length]
+    # Check if true values and predicted values are constant (no variance)
+    if true_values.var() == 0:
+        st.write("Warning: True values are constant!")
+    if predicted_values.var() == 0:
+        st.write("Warning: Predicted values are constant!")
+
+    # Check if indices match
+    if not true_values.index.equals(predicted_values.index):
+        st.write("Warning: Indices don't match!")
+        st.write(f"True values indices: {true_values.index}")
+        st.write(f"Predicted values indices: {predicted_values.index}")
     # Initialize subplots for each variable
     n_variables = len(variables)
     fig, axes = plt.subplots(n_variables, 1, figsize=(12, 6 * n_variables))
@@ -758,7 +767,7 @@ def american_page():
         **How:** Offers data-driven insights through visualization and modeling.
     """)
     st.title("American Airlines")
-    st.write("""
+    st.write(""
     This page explores how American Airlines is impacted by weather conditions and federal holidays.
 
         ## Visualizations:
@@ -770,7 +779,7 @@ def american_page():
 
         ## Statistical Analysis:
         - Understand the correlation between weather variables and flight delays/cancellations.
-        """
+        ""
              )
 
     # Load American Airlines data
@@ -937,7 +946,7 @@ def american_page():
 def united_page():
 
     st.subheader("United Airlines Overview")
-    st.write("""
+    st.write(""
         **What:** Examines the impact of weather and holidays on United Airlines' delays.
         **Why:** Helps United mitigate delay risks and enhance customer satisfaction.
         **How:** Uses data visualization and statistical models.
@@ -954,7 +963,7 @@ def united_page():
 
         ## Statistical Analysis:
         - Understand the correlation between weather variables and flight delays/cancellations.
-        """)
+        "")
 
     # Load United Airlines data
     non_cancelled_data, cancelled_data = load_airline_data('United')
